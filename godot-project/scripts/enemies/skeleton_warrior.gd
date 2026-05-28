@@ -367,3 +367,18 @@ func _on_patrol_timer_timeout() -> void:
 func set_patrol_points(points: Array[Vector2]) -> void:
 	patrol_points = points
 	current_patrol_index = 0
+
+## 重置敌人（篝火休息时调用）
+func reset() -> void:
+	current_hp = max_hp
+	current_state = EnemyState.IDLE
+	is_staggered = false
+	is_attacking = false
+	can_attack = true
+	position = patrol_points[0] if not patrol_points.is_empty() else global_position
+	set_physics_process(true)
+	if hurtbox:
+		hurtbox.monitoring = true
+	if detection_area:
+		detection_area.monitoring = true
+	show()
