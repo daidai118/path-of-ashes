@@ -43,17 +43,14 @@ func _ready() -> void:
 			player.stamina_changed.connect(_on_stamina_changed)
 		if player.has_signal("focus_changed"):
 			player.focus_changed.connect(_on_focus_changed)
-		if player.has_signal("souls_changed"):
-			player.souls_changed.connect(_on_souls_changed)
-		
-		# 初始化显示
-		_on_health_changed(player.current_hp, player.max_hp)
-		_on_stamina_changed(player.current_stamina, player.max_stamina)
-		_on_focus_changed(player.current_focus, player.max_focus)
 	
 	# 连接GameManager信号
 	if GameManager:
 		GameManager.bonfire_rest.connect(_on_bonfire_rest)
+		# 初始化显示
+		_on_health_changed(GameManager.player_stats.current_hp, GameManager.player_stats.max_hp)
+		_on_stamina_changed(GameManager.player_stats.current_stamina, GameManager.player_stats.max_stamina)
+		_on_focus_changed(GameManager.player_stats.current_fp, GameManager.player_stats.max_fp)
 	
 	# 初始化原素瓶显示
 	_update_estus_display()
