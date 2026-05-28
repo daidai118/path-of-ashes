@@ -26,6 +26,7 @@ class PlayerStats:
 	var current_fp: int = 100
 	var max_stamina: int = 100
 	var current_stamina: int = 100
+	var play_time: float = 0.0
 	
 	## 属性点数
 	var vitality: int = 10
@@ -51,6 +52,8 @@ class GameData:
 	var discovered_areas: Array[String] = ["graveyard"]
 	var unlocked_skills: Array[String] = ["dodge", "grapple", "slash"]
 	var inventory: Dictionary = {}
+	var souls_on_ground: int = 0
+	var soul_position: Vector2 = Vector2.ZERO
 
 ## 状态管理
 func change_state(new_state: GameState) -> void:

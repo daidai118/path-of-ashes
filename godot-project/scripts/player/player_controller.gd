@@ -2,6 +2,12 @@
 ## 处理移动、跳跃、翻滚、攻击
 extends CharacterBody2D
 
+## 信号
+signal health_changed(new_hp: int, max_hp: int)
+signal stamina_changed(new_stamina: float, max_stamina: float)
+signal focus_changed(new_focus: float, max_focus: float)
+signal souls_changed(new_souls: int)
+
 ## 导出变量
 @export var move_speed: float = 200.0
 @export var jump_force: float = -400.0
@@ -9,6 +15,18 @@ extends CharacterBody2D
 @export var dodge_speed: float = 400.0
 @export var dodge_duration: float = 0.3
 @export var dodge_cooldown: float = 0.5
+
+## 体力消耗
+@export var light_attack_stamina_cost: float = 15.0
+@export var heavy_attack_stamina_cost: float = 30.0
+@export var dodge_stamina_cost: float = 25.0
+
+## 体力恢复
+@export var stamina_recovery_rate: float = 30.0  # 脱战恢复
+@export var stamina_recovery_rate_combat: float = 15.0  # 战斗恢复
+var is_in_combat: bool = false
+var combat_timeout: float = 3.0
+var combat_timer: float = 0.0
 
 ## 节点引用
 @onready var sprite: Sprite2D = $Sprite2D
@@ -47,6 +65,15 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if GameManager.current_state != GameManager.GameState.PLAYING:
 		return
+	
+	# 更新战斗计时器
+	if is_in_combat:
+		combat_timer -= delta
+		if combat_timer <= 0:
+			is_in_combat = false
+	
+	# 恢复体力
+	_recover_stamina(delta)
 	
 	# 应用重力
 	if not is_on_floor():
@@ -136,9 +163,14 @@ func _handle_actions() -> void:
 
 ## 开始翻滚
 func _start_dodge() -> void:
+	# 检查体力
+	if not consume_stamina(dodge_stamina_cost):
+		return
+	
 	change_state(PlayerState.DODGE)
 	can_dodge = false
 	is_invincible = true
+	enter_combat()
 	
 	# 翻滚方向
 	var dodge_dir = 1.0 if facing_right else -1.0
@@ -166,6 +198,13 @@ func _handle_dodge() -> void:
 
 ## 开始攻击
 func _start_attack(type: String) -> void:
+	# 检查体力
+	var stamina_cost = heavy_attack_stamina_cost if type == "heavy" else light_attack_stamina_cost
+	if not consume_stamina(stamina_cost):
+		return
+	
+	enter_combat()
+	
 	if current_state == PlayerState.ATTACK:
 		# 连击检测
 		if combo_timer > 0:
@@ -181,8 +220,16 @@ func _start_attack(type: String) -> void:
 	# 触发动画
 	animation_player.play("attack_" + type + "_" + str(combo_count))
 	
+	# 启用Hitbox
+	if hitbox:
+		hitbox.monitoring = true
+	
 	# 等待动画结束
 	await animation_player.animation_finished
+	
+	# 禁用Hitbox
+	if hitbox:
+		hitbox.monitoring = false
 	
 	if current_state == PlayerState.ATTACK:
 		change_state(PlayerState.IDLE if is_on_floor() else PlayerState.FALL)
@@ -269,6 +316,45 @@ func _on_respawned() -> void:
 func _on_landed() -> void:
 	if current_state == PlayerState.FALL:
 		change_state(PlayerState.IDLE)
+
+## 恢复体力
+func _recover_stamina(delta: float) -> void:
+	var recovery_rate = stamina_recovery_rate_combat if is_in_combat else stamina_recovery_rate
+	if GameManager.player_stats.current_stamina < GameManager.player_stats.max_stamina:
+		GameManager.player_stats.current_stamina = min(
+			GameManager.player_stats.current_stamina + recovery_rate * delta,
+			GameManager.player_stats.max_stamina
+		)
+		stamina_changed.emit(GameManager.player_stats.current_stamina, GameManager.player_stats.max_stamina)
+
+## 进入战斗状态
+func enter_combat() -> void:
+	is_in_combat = true
+	combat_timer = combat_timeout
+
+## 消耗体力
+func consume_stamina(amount: float) -> bool:
+	if GameManager.player_stats.current_stamina >= amount:
+		GameManager.player_stats.current_stamina -= amount
+		stamina_changed.emit(GameManager.player_stats.current_stamina, GameManager.player_stats.max_stamina)
+		return true
+	return false
+
+## 消耗专注值
+func consume_focus(amount: float) -> bool:
+	if GameManager.player_stats.current_fp >= amount:
+		GameManager.player_stats.current_fp -= amount
+		focus_changed.emit(GameManager.player_stats.current_fp, GameManager.player_stats.max_fp)
+		return true
+	return false
+
+## 恢复生命值
+func heal(amount: int) -> void:
+	GameManager.player_stats.current_hp = min(
+		GameManager.player_stats.current_hp + amount,
+		GameManager.player_stats.max_hp
+	)
+	health_changed.emit(GameManager.player_stats.current_hp, GameManager.player_stats.max_hp)
 
 ## 切换状态
 func change_state(new_state: PlayerState) -> void:
