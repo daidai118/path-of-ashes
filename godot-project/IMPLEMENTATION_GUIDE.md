@@ -666,6 +666,64 @@ func _start_attack(type: String) -> void:
 
 ---
 
+### T-1.2.4: 实现攻击判定(Hitbox)
+
+**实现步骤:**
+
+1. 创建Hitbox区域:
+```
+Hitbox (Area2D)
+├── CollisionShape2D (RectangleShape2D, size=Vector2(40, 30))
+```
+
+2. 设置碰撞层:
+```gdscript
+# Hitbox设置
+collision_layer = 0  # 不检测其他物体
+collision_mask = 2   # 检测敌人层
+monitoring = false   # 默认禁用
+```
+
+3. 添加启用/禁用函数:
+```gdscript
+func _enable_hitbox() -> void:
+    if hitbox:
+        hitbox.monitoring = true
+        # 根据朝向调整位置
+        hitbox.position.x = abs(hitbox.position.x) * (1 if facing_right else -1)
+
+func _disable_hitbox() -> void:
+    if hitbox:
+        hitbox.monitoring = false
+```
+
+4. 在攻击函数中调用:
+```gdscript
+func _start_attack(type: String) -> void:
+    # ... 攻击逻辑
+    _enable_hitbox()
+    await animation_player.animation_finished
+    _disable_hitbox()
+```
+
+5. 连接Hitbox信号:
+```gdscript
+func _ready() -> void:
+    hitbox.body_entered.connect(_on_hitbox_body_entered)
+
+func _on_hitbox_body_entered(body: Node2D) -> void:
+    if body.has_method("take_damage"):
+        var damage = calculate_damage()
+        var knockback = (body.global_position - global_position).normalized()
+        body.take_damage(damage, knockback)
+```
+
+6. 验证:
+   - 攻击敌人观察是否扣血
+   - 观察Hitbox可视化(调试模式)
+
+---
+
 ### T-1.2.5: 实现受击判定(Hurtbox)
 
 **实现步骤:**
