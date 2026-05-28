@@ -251,3 +251,13 @@
 - [x] `assets-prompts/characters/player/player-dodge.md` ➔ `assets/characters/player/player-dodge.png`
 - [x] `assets-prompts/characters/player/player-hurt.md` ➔ `assets/characters/player/player-hurt.png`
 - [x] `assets-prompts/characters/player/player-death.md` ➔ `assets/characters/player/player-death.png`
+
+## 9. 额外生成占位图清单 (Extra Generated Placeholders - 150 files)
+- [x] **Bosses**: Abyss Watcher, Ash King, Exiled King, Fallen Bishop, Flame Guardian, Mine Worm, Mother of Decay (42 files)
+- [x] **Enemies**: Ash Undead, Corrupted Villager, Shadow Hunter, Skeleton Archer, Skeleton Knight (22 files)
+- [x] **NPCs**: Guard Captain, Lost Spirit, Miner Ghost, Oracle, Penitent (5 files)
+- [x] **Tilesets**: Abyss, Capital, Cathedral, Forest, Heart, Mines, Palace, Temple (32 files)
+- [x] **Amulets**: abyss-gaze, ash-affinity, ash-blood, ash-vision, fire-resist, holy-range, iron-wall, quake-range, range-master, shadow-dodge, shadow-extend, soul-keeper, vampire (13 files)
+- [x] **Consumables**: antidote, curse-cure, fire-pot, focus-potion, moss, poison-pot, return-bone (7 files)
+- [x] **Weapons**: Axes (4), Daggers (4), Greatswords (5), Spears (4), Staves (4) (21 files)
+- [x] **VFX**: buff-effect, dark-explosion, dark-slash, death-particles, fire-explosion, heal-effect, holy-slash, soul-absorb (8 files)
