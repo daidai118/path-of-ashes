@@ -1,0 +1,58 @@
+{
+  "dialog_id": "blacksmith_intro",
+  "speaker": "铁匠",
+  "lines": [
+    {
+      "speaker": "铁匠",
+      "text": "哦...又一个从灰烬中醒来的旅人。",
+      "portrait": null
+    },
+    {
+      "speaker": "铁匠",
+      "text": "我是这里的铁匠，虽然...我快忘记自己叫什么了。",
+      "portrait": null
+    },
+    {
+      "speaker": "铁匠",
+      "text": "你需要武器吗？我可以帮你修理和强化。",
+      "portrait": null,
+      "choices": [
+        {
+          "id": "ask_about_forge",
+          "text": "告诉我关于这个铁匠铺",
+          "next_line": 3
+        },
+        {
+          "id": "ask_about_world",
+          "text": "这里发生了什么？",
+          "next_line": 5
+        },
+        {
+          "id": "end_conversation",
+          "text": "再见",
+          "next_line": -1
+        }
+      ]
+    },
+    {
+      "speaker": "铁匠",
+      "text": "这个铁匠铺...已经存在很久了。比我记得的还要久。",
+      "portrait": null
+    },
+    {
+      "speaker": "铁匠",
+      "text": "灰烬覆盖了一切，但火焰从未真正熄灭。",
+      "portrait": null
+    },
+    {
+      "speaker": "铁匠",
+      "text": "这个世界...曾经不是这样的。灰烬降临之前，这里充满生机。",
+      "portrait": null
+    },
+    {
+      "speaker": "铁匠",
+      "text": "但现在...只有灰烬和遗忘。连我的记忆也在消退。",
+      "portrait": null
+    }
+  ]
+}

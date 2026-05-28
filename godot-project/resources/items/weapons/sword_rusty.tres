@@ -1,0 +1,15 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+resource_name = "Rusty Sword"
+script = null
+item_id = "sword_rusty"
+item_name = "锈蚀长剑"
+item_description = "一把破旧的铁剑，布满锈迹"
+item_type = 0  # WEAPON
+base_damage = 50
+attack_speed = 1.0
+stamina_cost = 15
+scaling_strength = "D"
+scaling_dexterity = "E"
+special_effect = ""

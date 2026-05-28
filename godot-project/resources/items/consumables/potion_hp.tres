@@ -1,0 +1,15 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+resource_name = "Health Potion"
+script = null
+item_id = "potion_hp"
+item_name = "生命药水"
+item_description = "恢复100点生命值"
+item_type = 2  # CONSUMABLE
+stackable = true
+max_quantity = 10
+usable = true
+heal_amount = 100
+buy_price = 100
+sell_price = 50

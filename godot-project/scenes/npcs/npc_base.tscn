@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://npcbase001"]
+
+[ext_resource type="Script" path="res://scripts/npcs/npc_base.gd" id="1_script"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_interaction"]
+size = Vector2(60, 60)
+
+[node name="NPCBase" type="CharacterBody2D" groups=["npcs"]]
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("1_script")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="InteractionArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+shape = SubResource("RectangleShape2D_interaction")
+
+[node name="DialogIndicator" type="Sprite2D" parent="."]
+position = Vector2(0, -40)
+visible = false
+
+[node name="NameLabel" type="Label" parent="."]
+offset_left = -50
+offset_top = -60
+offset_right = 50
+offset_bottom = -40
+horizontal_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[connection signal="body_entered" from="InteractionArea" to="." method="_on_interaction_area_body_entered"]
+[connection signal="body_exited" from="InteractionArea" to="." method="_on_interaction_area_body_exited"]
