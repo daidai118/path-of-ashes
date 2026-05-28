@@ -147,9 +147,13 @@ func _reset_enemies() -> void:
 			enemy.reset()
 
 func _show_bonfire_menu() -> void:
-	# TODO: 显示篝火菜单UI
+	# 显示篝火菜单UI
 	# 菜单包含：升级、更换技能、传送、离开
-	pass
+	EventBus.bonfire_rest.emit(bonfire_id)
+	
+	# 自动存档
+	if SaveManager:
+		SaveManager.save_game()
 
 ## 获取篝火位置（用于重生）
 func get_respawn_position() -> Vector2:
