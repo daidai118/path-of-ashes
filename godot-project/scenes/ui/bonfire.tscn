@@ -1,0 +1,43 @@
+[gd_scene load_steps=4 format=3 uid="uid://bonfire001"]
+
+[ext_resource type="Script" path="res://scripts/systems/bonfire.gd" id="1_bonfire"]
+[ext_resource type="Texture2D" path="res://assets/environment/props/bonfire.png" id="2_bonfire_tex"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_interaction"]
+size = Vector2(60, 40)
+
+[node name="Bonfire" type="Area2D" groups=["bonfires"]]
+collision_layer = 4
+collision_mask = 1
+script = ExtResource("1_bonfire")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_bonfire_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_interaction")
+
+[node name="InteractionArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+shape = SubResource("RectangleShape2D_interaction")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(0, -20)
+energy = 0.0
+texture_scale = 2.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="UIPrompt" type="Label" parent="."]
+offset_left = -50
+offset_top = -60
+offset_right = 50
+offset_bottom = -40
+text = "按 E 休息"
+horizontal_alignment = 1
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

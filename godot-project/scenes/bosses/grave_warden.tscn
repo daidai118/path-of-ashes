@@ -1,0 +1,60 @@
+[gd_scene load_steps=5 format=3 uid="uid://gravewarden001"]
+
+[ext_resource type="Script" path="res://scripts/bosses/grave_warden.gd" id="1_warden"]
+[ext_resource type="Texture2D" path="res://assets/characters/bosses/grave-warden/grave-warden-idle.png" id="2_idle"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(40, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hitbox"]
+size = Vector2(80, 60)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_detection"]
+radius = 300.0
+
+[node name="GraveWarden" type="CharacterBody2D" groups=["enemies", "bosses"]]
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("1_warden")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_idle")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_body")
+
+[node name="Hitbox" type="Area2D" parent="."]
+position = Vector2(50, 0)
+collision_layer = 0
+collision_mask = 1
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("RectangleShape2D_hitbox")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("RectangleShape2D_body")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("CircleShape2D_detection")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="AttackTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="PhaseTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
+[connection signal="body_entered" from="Hurtbox" to="." method="_on_hurtbox_body_entered"]

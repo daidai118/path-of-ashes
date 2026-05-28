@@ -16,9 +16,10 @@ extends CharacterBody2D
 @onready var hitbox: Area2D = $Hitbox
 @onready var hurtbox: Area2D = $Hurtbox
 @onready var state_machine: Node = $StateMachine
+@onready var grapple_skill: Node2D = $GrappleSkill
 
 ## 状态
-enum PlayerState { IDLE, RUN, JUMP, FALL, DODGE, ATTACK, HURT, DEAD }
+enum PlayerState { IDLE, RUN, JUMP, FALL, DODGE, ATTACK, GRAPPLE, HURT, DEAD }
 var current_state: PlayerState = PlayerState.IDLE
 var is_invincible: bool = false
 var can_dodge: bool = true
@@ -35,6 +36,13 @@ var was_on_floor: bool = false
 func _ready() -> void:
 	# 连接信号
 	GameManager.player_respawned.connect(_on_respawned)
+	
+	# 连接钩索信号
+	if grapple_skill:
+		if grapple_skill.has_signal("grapple_started"):
+			grapple_skill.grapple_started.connect(_on_grapple_started)
+		if grapple_skill.has_signal("grapple_released"):
+			grapple_skill.grapple_released.connect(_on_grapple_released)
 
 func _physics_process(delta: float) -> void:
 	if GameManager.current_state != GameManager.GameState.PLAYING:
@@ -56,6 +64,8 @@ func _physics_process(delta: float) -> void:
 			_handle_dodge()
 		PlayerState.ATTACK:
 			_handle_attack(delta)
+		PlayerState.GRAPPLE:
+			_handle_grapple(delta)
 		PlayerState.HURT:
 			pass
 		PlayerState.DEAD:
@@ -188,8 +198,35 @@ func _use_skill(slot: int) -> void:
 	if skill_id.is_empty():
 		return
 	
-	# TODO: 实现技能系统
+	# 钩索技能
+	if skill_id == "grapple" and grapple_skill:
+		if grapple_skill.is_ready():
+			var direction = Vector2(1 if facing_right else -1, 0)
+			grapple_skill.activate(self, direction)
+		return
+	
+	# TODO: 实现其他技能
 	print("使用技能: ", skill_id)
+
+## 处理钩索中
+func _handle_grapple(delta: float) -> void:
+	if grapple_skill and grapple_skill.get_state() == grapple_skill.GrappleState.PULLING:
+		# 允许玩家控制移动
+		var input_dir = Input.get_axis("move_left", "move_right")
+		if input_dir != 0:
+			velocity.x = move_toward(velocity.x, input_dir * move_speed * 0.3, move_speed * delta * 0.3)
+	
+	# 检查钩索是否结束
+	if grapple_skill and not grapple_skill.is_active:
+		change_state(PlayerState.IDLE if is_on_floor() else PlayerState.FALL)
+
+## 钩索开始
+func _on_grapple_started() -> void:
+	change_state(PlayerState.GRAPPLE)
+
+## 钩索释放
+func _on_grapple_released() -> void:
+	change_state(PlayerState.IDLE if is_on_floor() else PlayerState.FALL)
 
 ## 受到伤害
 func take_damage(damage: int, knockback_dir: Vector2 = Vector2.ZERO) -> void:

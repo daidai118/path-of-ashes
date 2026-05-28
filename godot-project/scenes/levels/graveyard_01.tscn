@@ -1,0 +1,148 @@
+[gd_scene load_steps=13 format=3 uid="uid://graveyard001"]
+
+[ext_resource type="Script" path="res://scripts/levels/graveyard_level.gd" id="1_level"]
+[ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" uid="uid://skeleton001" path="res://scenes/enemies/skeleton_warrior.tscn" id="3_skeleton"]
+[ext_resource type="PackedScene" uid="uid://bonfire001" path="res://scenes/ui/bonfire.tscn" id="4_bonfire"]
+[ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/player_hud.tscn" id="5_hud"]
+[ext_resource type="Texture2D" path="res://assets/environment/tilesets/graveyard-ground.png" id="6_ground"]
+[ext_resource type="Texture2D" path="res://assets/environment/tilesets/graveyard-background.png" id="7_bg"]
+[ext_resource type="PackedScene" uid="uid://pausemenu001" path="res://scenes/ui/pause_menu.tscn" id="8_pause"]
+[ext_resource type="PackedScene" uid="uid://gravewarden001" path="res://scenes/bosses/grave_warden.tscn" id="9_boss"]
+[ext_resource type="PackedScene" uid="uid://grapplepoint001" path="res://scenes/environment/grapple_point.tscn" id="10_grapple_point"]
+[ext_resource type="PackedScene" uid="uid://lever001" path="res://scenes/environment/lever.tscn" id="11_lever"]
+[ext_resource type="PackedScene" uid="uid://gate001" path="res://scenes/environment/gate.tscn" id="12_gate"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
+size = Vector2(1920, 100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_platform"]
+size = Vector2(200, 30)
+
+[node name="GraveyardLevel" type="Node2D"]
+script = ExtResource("1_level")
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(960, 300)
+texture = ExtResource("7_bg")
+
+[node name="TileMap" type="TileMap" parent="."]
+position = Vector2(0, 0)
+
+[node name="Ground" type="StaticBody2D" parent="."]
+position = Vector2(960, 600)
+collision_layer = 4
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="Ground"]
+texture = ExtResource("6_ground")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
+shape = SubResource("RectangleShape2D_ground")
+
+[node name="Platform1" type="StaticBody2D" parent="."]
+position = Vector2(400, 450)
+collision_layer = 4
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="Platform1"]
+texture = ExtResource("6_ground")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platform1"]
+shape = SubResource("RectangleShape2D_platform")
+
+[node name="Platform2" type="StaticBody2D" parent="."]
+position = Vector2(800, 350)
+collision_layer = 4
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="Platform2"]
+texture = ExtResource("6_ground")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platform2"]
+shape = SubResource("RectangleShape2D_platform")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(200, 550)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+zoom = Vector2(2, 2)
+limit_left = 0
+limit_top = 0
+limit_right = 1920
+limit_bottom = 700
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Skeleton1" parent="Enemies" instance=ExtResource("3_skeleton")]
+position = Vector2(600, 550)
+
+[node name="Skeleton2" parent="Enemies" instance=ExtResource("3_skeleton")]
+position = Vector2(1000, 550)
+
+[node name="Skeleton3" parent="Enemies" instance=ExtResource("3_skeleton")]
+position = Vector2(1400, 550)
+
+[node name="GraveWarden" parent="Enemies" instance=ExtResource("9_boss")]
+position = Vector2(1800, 550)
+
+[node name="Bonfires" type="Node2D" parent="."]
+
+[node name="BonfireStart" parent="Bonfires" instance=ExtResource("4_bonfire")]
+position = Vector2(200, 550)
+bonfire_id = "graveyard_start"
+bonfire_name = "起始墓地"
+
+[node name="BonfireBoss" parent="Bonfires" instance=ExtResource("4_bonfire")]
+position = Vector2(1600, 550)
+bonfire_id = "graveyard_boss"
+bonfire_name = "Boss房前"
+
+[node name="Props" type="Node2D" parent="."]
+
+[node name="Gravestone1" type="Sprite2D" parent="Props"]
+position = Vector2(500, 550)
+
+[node name="Gravestone2" type="Sprite2D" parent="Props"]
+position = Vector2(1200, 550)
+
+[node name="GrapplePoints" type="Node2D" parent="."]
+
+[node name="GrapplePoint1" parent="GrapplePoints" instance=ExtResource("10_grapple_point")]
+position = Vector2(600, 200)
+
+[node name="GrapplePoint2" parent="GrapplePoints" instance=ExtResource("10_grapple_point")]
+position = Vector2(1100, 150)
+
+[node name="GrapplePoint3" parent="GrapplePoints" instance=ExtResource("10_grapple_point")]
+position = Vector2(1500, 100)
+
+[node name="HiddenPlatform" type="StaticBody2D" parent="."]
+position = Vector2(1500, 250)
+collision_layer = 4
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="HiddenPlatform"]
+texture = ExtResource("6_ground")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HiddenPlatform"]
+shape = SubResource("RectangleShape2D_platform")
+
+[node name="HiddenBonfire" parent="." instance=ExtResource("4_bonfire")]
+position = Vector2(1500, 220)
+bonfire_id = "graveyard_hidden"
+bonfire_name = "隐藏墓穴"
+
+[node name="Puzzles" type="Node2D" parent="."]
+
+[node name="Lever1" parent="Puzzles" instance=ExtResource("11_lever")]
+position = Vector2(700, 500)
+lever_id = "lever_1"
+
+[node name="Gate1" parent="Puzzles" instance=ExtResource("12_gate")]
+position = Vector2(1300, 520)
+gate_id = "gate_1"
+
+[node name="PlayerHUD" parent="." instance=ExtResource("5_hud")]
+
+[node name="PauseMenu" parent="." instance=ExtResource("8_pause")]

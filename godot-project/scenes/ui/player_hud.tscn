@@ -1,0 +1,235 @@
+[gd_scene load_steps=2 format=3 uid="uid://hud001"]
+
+[ext_resource type="Script" path="res://scripts/ui/player_hud.gd" id="1_hud"]
+
+[node name="PlayerHUD" type="CanvasLayer"]
+layer = 10
+script = ExtResource("1_hud")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+offset_right = 250.0
+offset_bottom = 120.0
+theme_override_constants/separation = 5
+
+[node name="HealthBar" type="ProgressBar" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(250, 20)
+max_value = 500.0
+value = 500.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HealthBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "500/500"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StaminaBar" type="ProgressBar" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(250, 15)
+max_value = 100.0
+value = 100.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/StaminaBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "100/100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FocusBar" type="ProgressBar" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(250, 15)
+max_value = 100.0
+value = 100.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/FocusBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "100/100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SoulsLabel" type="Label" parent="MarginContainer"]
+layout_mode = 2
+offset_left = 20.0
+offset_top = 130.0
+offset_right = 200.0
+offset_bottom = 150.0
+text = "灰烬精华: 0"
+
+[node name="EstusLabel" type="Label" parent="MarginContainer"]
+layout_mode = 2
+offset_left = 20.0
+offset_top = 160.0
+offset_right = 200.0
+offset_bottom = 180.0
+text = "原素瓶: 3/3"
+
+[node name="SkillSlots" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -80.0
+offset_right = 250.0
+offset_bottom = -10.0
+grow_vertical = 0
+theme_override_constants/separation = 10
+
+[node name="Skill1" type="PanelContainer" parent="MarginContainer/SkillSlots"]
+layout_mode = 2
+custom_minimum_size = Vector2(60, 60)
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/SkillSlots/Skill1"]
+layout_mode = 2
+expand_mode = 3
+
+[node name="Cooldown" type="ProgressBar" parent="MarginContainer/SkillSlots/Skill1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+max_value = 100.0
+value = 0.0
+show_percentage = false
+
+[node name="KeyLabel" type="Label" parent="MarginContainer/SkillSlots/Skill1"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -15.0
+offset_top = -15.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Q"
+horizontal_alignment = 1
+
+[node name="Skill2" type="PanelContainer" parent="MarginContainer/SkillSlots"]
+layout_mode = 2
+custom_minimum_size = Vector2(60, 60)
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/SkillSlots/Skill2"]
+layout_mode = 2
+expand_mode = 3
+
+[node name="Cooldown" type="ProgressBar" parent="MarginContainer/SkillSlots/Skill2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+max_value = 100.0
+value = 0.0
+show_percentage = false
+
+[node name="KeyLabel" type="Label" parent="MarginContainer/SkillSlots/Skill2"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -15.0
+offset_top = -15.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "E"
+horizontal_alignment = 1
+
+[node name="Skill3" type="PanelContainer" parent="MarginContainer/SkillSlots"]
+layout_mode = 2
+custom_minimum_size = Vector2(60, 60)
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/SkillSlots/Skill3"]
+layout_mode = 2
+expand_mode = 3
+
+[node name="Cooldown" type="ProgressBar" parent="MarginContainer/SkillSlots/Skill3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+max_value = 100.0
+value = 0.0
+show_percentage = false
+
+[node name="KeyLabel" type="Label" parent="MarginContainer/SkillSlots/Skill3"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -15.0
+offset_top = -15.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "R"
+horizontal_alignment = 1
+
+[node name="ItemSlot" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 1
+anchors_preset = 6
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -80.0
+offset_right = -20.0
+offset_bottom = -10.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/ItemSlot"]
+layout_mode = 2
+custom_minimum_size = Vector2(60, 60)
+expand_mode = 3
+
+[node name="Count" type="Label" parent="MarginContainer/ItemSlot"]
+layout_mode = 2
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="KeyLabel" type="Label" parent="MarginContainer/ItemSlot"]
+layout_mode = 2
+text = "F"
+horizontal_alignment = 1
+vertical_alignment = 1
