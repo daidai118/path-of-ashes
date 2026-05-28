@@ -18,16 +18,16 @@
 | assets/ | ✅ | 素材文件目录完整 |
 | addons/ | ✅ | 插件目录已创建 |
 
-### 1.2 脚本文件 ✅ 完整 (24个)
+### 1.2 脚本文件 ✅ 完整 (28个)
 
 | 模块 | 文件数 | 状态 |
 |------|--------|------|
 | autoload/ | 4 | ✅ GameManager, AudioManager, EventBus, SaveManager |
 | player/ | 1 | ✅ player_controller.gd |
-| enemies/ | 2 | ✅ enemy_base.gd, skeleton_warrior.gd |
-| bosses/ | 2 | ✅ boss_base.gd, grave_warden.gd |
-| skills/ | 2 | ✅ skill_base.gd, grapple_skill.gd |
-| npcs/ | 3 | ✅ npc_base.gd, dialog_system.gd, shop_system.gd |
+| enemies/ | 3 | ✅ enemy_base.gd, skeleton_warrior.gd, skeleton_archer.gd |
+| bosses/ | 3 | ✅ boss_base.gd, grave_warden.gd, decay_mother.gd |
+| skills/ | 3 | ✅ skill_base.gd, grapple_skill.gd, ash_echo_skill.gd |
+| npcs/ | 4 | ✅ npc_base.gd, dialog_system.gd, shop_system.gd, blacksmith.gd |
 | systems/ | 3 | ✅ bonfire.gd, inventory_system.gd, progression_system.gd |
 | levels/ | 2 | ✅ level_base.gd, graveyard_level.gd |
 | environment/ | 2 | ✅ lever.gd, gate.gd |
